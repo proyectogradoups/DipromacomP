@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateTdiMedidasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="#{bundle.CreateTdiMedidasLabel_medDescripcion}" for="medDescripcion" />
+                    <p:inputText id="medDescripcion" value="#{tdiMedidasController.selected.medDescripcion}" title="#{bundle.CreateTdiMedidasTitle_medDescripcion}" />
+                    <p:outputLabel value="#{bundle.CreateTdiMedidasLabel_medSiglas}" for="medSiglas" />
+                    <p:inputText id="medSiglas" value="#{tdiMedidasController.selected.medSiglas}" title="#{bundle.CreateTdiMedidasTitle_medSiglas}" />
+                    <p:outputLabel value="#{bundle.CreateTdiMedidasLabel_medUnidades}" for="medUnidades" />
+                    <p:inputText id="medUnidades" value="#{tdiMedidasController.selected.medUnidades}" title="#{bundle.CreateTdiMedidasTitle_medUnidades}" />
+                    <p:outputLabel value="#{bundle.CreateTdiMedidasLabel_medFraccion}" for="medFraccion" />
+                    <p:inputText id="medFraccion" value="#{tdiMedidasController.selected.medFraccion}" title="#{bundle.CreateTdiMedidasTitle_medFraccion}" />
+                    <p:outputLabel value="#{bundle.CreateTdiMedidasLabel_medEstado}" for="medEstado" />
+                    <p:inputText id="medEstado" value="#{tdiMedidasController.selected.medEstado}" title="#{bundle.CreateTdiMedidasTitle_medEstado}" />
+                </h:panelGrid>
+                <br /> <!-- creamos la accion para ingresar la medida -->
+                
+                
+                 <!-- creacion de la ventana de confirmacion -->
+                <p:growl id="message" showDetail="true" />
+                <p:commandButton value="Guardar Datos (alt+g)" icon="fa fa-save" actionListener="#{tdiMedidasController.create}" accesskey="g" update="message">
+                    <p:confirm header="Confirmacion" message="Desea guardar?" icon="ui-icon-alert" />
+                </p:commandButton>             
+                <!-- confirmacion de mensaje -->
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+                
+                <br /><!-- creamos la accion para preparar el proceso -->
+                <h:commandLink action="#{tdiMedidasController.prepareList}" value="#{bundle.CreateTdiMedidasShowAllLink} (alt+l)" accesskey="l" immediate="true" style="display: none"/>
+                <h:link outcome="/index" value="#{bundle.CreateTdiMedidasIndexLink}" accesskey="i" style="display: none" />
+            </h:form>
+        </ui:define>
+        
+        <!--  Definimos el facelets del menu a utilizar en nuestro template  -->
+        <ui:define name="Menu">
+            <h:form >
+                <p:menu>
+                    <p:submenu label="Opciones">
+                        <p:menuitem action="#{tdiMedidasController.prepareList}" value="#{bundle.CreateTdiMedidasShowAllLink} (alt+l)"  immediate="true"/>
+                        <p:menuitem outcome="/index" value="#{bundle.CreateTdiMedidasIndexLink} (alt+i)"/>
+                    </p:submenu>
+
+                </p:menu>  
+            </h:form>
+        </ui:define> 
+    </ui:composition>
+
+</html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateTdiSubgruposTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="#{bundle.CreateTdiSubgruposLabel_sgruDescripcion}" for="sgruDescripcion" />
+                    <p:inputText id="sgruDescripcion" value="#{tdiSubgruposController.selected.sgruDescripcion}" title="#{bundle.CreateTdiSubgruposTitle_sgruDescripcion}" />
+                    <p:outputLabel value="#{bundle.CreateTdiSubgruposLabel_sgruEstado}" for="sgruEstado" />
+                    <p:inputText id="sgruEstado" value="#{tdiSubgruposController.selected.sgruEstado}" title="#{bundle.CreateTdiSubgruposTitle_sgruEstado}" />
+                    <p:outputLabel value="#{bundle.CreateTdiSubgruposLabel_gruId}" for="gruId" />
+                    <p:selectOneMenu id="gruId" value="#{tdiSubgruposController.selected.gruId}" required="true" requiredMessage="#{bundle.CreateTdiSubgruposRequiredMessage_gruId}">
+                        <f:selectItems value="#{tdiGruposController.itemsAvailableSelectOne}"/>
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                
+                <!-- creamos la accion para ingresar el subgrupo -->
+               <br />
+                
+                 <!-- creacion de la ventana de confirmacion -->
+                <p:growl id="message" showDetail="true" />
+                <p:commandButton value="Guardar Datos (alt+g)" icon="fa fa-save" actionListener="#{tdiSubgruposController.create}" update="message" accesskey="g">
+                    <p:confirm header="Confirmacion" message="Desea guardar?" icon="ui-icon-alert" />
+                </p:commandButton>             
+                <!-- confirmacion de mensaje -->
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog> 
+                
+                <!-- creamos la accion para preparar el  proceso -->
+                <h:commandLink action="#{tdiSubgruposController.prepareList}" value="#{bundle.CreateTdiSubgruposShowAllLink}" accesskey="l" immediate="true" style="display: none"/>
+                <h:link outcome="/index" value="#{bundle.CreateTdiSubgruposIndexLink}" accesskey="i" style="display: none"/>
+            </h:form>
+        </ui:define>
+        
+        <!--  Definimos el facelets del menu a utilizar en nuestro template  -->
+        <ui:define name="Menu">
+            <h:form >
+                <p:menu>
+                    <p:submenu label="Opciones">
+                        <p:menuitem action="#{tdiSubgruposController.prepareList}" value="#{bundle.CreateTdiSubgruposShowAllLink} (alt+l)" immediate="true"/>
+                        <p:menuitem outcome="/index" value="#{bundle.CreateTdiSubgruposIndexLink} (alt+i)"/>
+                    </p:submenu>
+
+                </p:menu>  
+            </h:form>
+        </ui:define> 
+    </ui:composition>
+
+</html>

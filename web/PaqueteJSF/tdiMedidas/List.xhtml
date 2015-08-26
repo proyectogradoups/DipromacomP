@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListTdiMedidasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListTdiMedidasEmpty}" rendered="#{tdiMedidasController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{tdiMedidasController.items.rowCount > 0}">
+                    <h:outputText value="#{tdiMedidasController.pagination.pageFirstItem + 1}..#{tdiMedidasController.pagination.pageLastItem + 1}/#{tdiMedidasController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{tdiMedidasController.previous}" value="#{bundle.Previous} #{tdiMedidasController.pagination.pageSize}" rendered="#{tdiMedidasController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{tdiMedidasController.next}" value="#{bundle.Next} #{tdiMedidasController.pagination.pageSize}" rendered="#{tdiMedidasController.pagination.hasNextPage}"/>&nbsp;
+
+                    <!-- creamos nuestra tabla contenedora de datos -->
+                    <p:dataTable value="#{tdiMedidasController.items}"  var="item" lazy="true" rows="8" paginator="true" 
+                                 rowsPerPageTemplate="10,50,100" paginatorTemplate="{RowsPerPageDropdown} 
+                                 {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTdiMedidasTitle_medId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.medId}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTdiMedidasTitle_medDescripcion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.medDescripcion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTdiMedidasTitle_medSiglas}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.medSiglas}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTdiMedidasTitle_medUnidades}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.medUnidades}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTdiMedidasTitle_medFraccion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.medFraccion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTdiMedidasTitle_medEstado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.medEstado}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+
+                            <!--  Creamos el boton para editar los campos de la tabla-->
+                            <p:splitButton action="#{tdiMedidasController.prepareView}" value="#{bundle.ListTdiMedidasViewLink}" icon="fa fa-plus">
+                                <p:menuitem action="#{tdiMedidasController.prepareEdit}" value="#{bundle.ListTdiMedidasEditLink}" icon="fa fa-edit" />
+                              <!-- ajax=false nos proporciona un modo submit para eliminar-->
+                                <p:menuitem ajax="false" action="#{tdiMedidasController.destroy}" value="#{bundle.ListTdiMedidasDestroyLink}" icon="fa fa-minus"/>
+                            </p:splitButton>
+                        </p:column>
+                    </p:dataTable> 
+
+
+                </h:panelGroup>
+                <br />
+
+                <!-- creamos la accion para preparar el proceso -->
+                <h:commandLink action="#{tdiMedidasController.prepareCreate}" value="#{bundle.ListTdiMedidasCreateLink}" accesskey="c" style="display: none"/>
+                <h:link outcome="/index" value="#{bundle.ListTdiMedidasIndexLink}" accesskey="i" style="display: none"/>
+            </h:form>
+        </ui:define>
+
+        <!--  Definimos el facelets del menu a utilizar en nuestro template  -->
+        <ui:define name="Menu">
+            <h:form styleClass="jsfcrud_list_form">
+                <p:menu>
+                    <p:submenu label="Opciones">
+                        <p:menuitem action="#{tdiMedidasController.prepareCreate}" value="#{bundle.ListTdiMedidasCreateLink} (alt+c)"/>
+                        <p:menuitem outcome="/index" value="#{bundle.ListTdiMedidasIndexLink} (alt+i)"/>
+                    </p:submenu>
+
+                </p:menu>  
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
